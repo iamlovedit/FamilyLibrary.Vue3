@@ -4,23 +4,61 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+<!--  <header>-->
+<!--    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />-->
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+<!--    <div class="wrapper">-->
+<!--      <HelloWorld msg="You did it!" />-->
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+<!--      <nav>-->
+<!--        <RouterLink to="/">Home</RouterLink>-->
+<!--        <RouterLink to="/about">About</RouterLink>-->
+<!--      </nav>-->
+<!--    </div>-->
+<!--  </header>-->
+
+<!--  <RouterView />-->
+  <div class="rootContainer">
+      <div class="headerContainer">
+        <nav>
+          <RouterLink to="/">
+            主页
+          </RouterLink>
+          <RouterLink to="/about">
+            关于
+          </RouterLink>
+        </nav>
+      </div>
+  <div>
+    <RouterView/>
+  </div>
+    <div class="footerContainer">
+
     </div>
-  </header>
-
-  <RouterView />
+  </div>
 </template>
 
 <style scoped>
+.rootContainer{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100vh
+}
+
+.headerContainer{
+  height: 42px;
+  width: 100%;
+  background-color: lightgreen;
+}
+
+.footerContainer{
+  width: 100%;
+  height: 42px;
+  background-color: lightcoral;
+}
+
+
 header {
   line-height: 1.5;
   max-height: 100vh;
