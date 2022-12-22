@@ -1,123 +1,112 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+import { computed } from 'vue'
+import { useRouter ,useRoute} from 'vue-router'
+import IconHome from "@/components/icons/IconHome.vue";
+
+export default {
+  components: {IconHome},
+  setup(){
+    const route = useRoute()
+    const router = useRouter()
+    const currentRoute = computed<string>(() => {
+      return route.name
+    })
+    function handleSelect(key:string){
+      router.push({
+        name:key,
+        query:{
+          ...route.query
+        }
+      })
+    }
+    function handleIconClick() {
+      router.push({
+        name:'home'
+      })
+    }
+    return{
+      handleSelect,
+      handleIconClick,
+      currentRoute
+    }
+  }
+}
 </script>
 
 <template>
-<!--  <header>-->
-<!--    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />-->
-
-<!--    <div class="wrapper">-->
-<!--      <HelloWorld msg="You did it!" />-->
-
-<!--      <nav>-->
-<!--        <RouterLink to="/">Home</RouterLink>-->
-<!--        <RouterLink to="/about">About</RouterLink>-->
-<!--      </nav>-->
-<!--    </div>-->
-<!--  </header>-->
-
-<!--  <RouterView />-->
-  <div class="rootContainer">
       <div class="headerContainer">
-        <nav>
-          <RouterLink to="/">
-            主页
-          </RouterLink>
-          <RouterLink to="/about">
-            关于
-          </RouterLink>
-        </nav>
+        <el-menu :default-active="currentRoute"
+                  mode="horizontal"
+                  :ellipsis="false"
+                  @select="handleSelect">
+          <div class="header_icon" >
+            <IconHome @click.stop="handleIconClick"/>
+          </div>
+          <div class="header_left">
+            <el-menu-item index="home">主页</el-menu-item>
+            <el-menu-item index="library">族库</el-menu-item>
+            <el-menu-item index="packages">节点包</el-menu-item>
+            <el-menu-item index="about">关于</el-menu-item>
+          </div>
+          <div class="header_right" >
+
+          </div>
+        </el-menu>
       </div>
-  <div>
+  <div class="mainContainer">
     <RouterView/>
   </div>
     <div class="footerContainer">
-
+        <h5> 蜀ICP备2022029729号-1</h5>
     </div>
-  </div>
 </template>
 
 <style scoped>
-.rootContainer{
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100vh
-}
 
 .headerContainer{
-  height: 42px;
   width: 100%;
-  background-color: lightgreen;
+  height: fit-content;
+}
+
+.header_icon{
+    margin-left: 20px;
+    width: 80px;
+    text-align: center;
+}
+.header_icon svg{
+  cursor: pointer;
+}
+
+.header_left{
+  display: flex;
+  margin-left: 20px;
+  justify-content: space-around;
+}
+
+
+.header_right{
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+}
+
+.mainContainer{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 4em;
 }
 
 .footerContainer{
   width: 100%;
   height: 42px;
-  background-color: lightcoral;
-}
-
-
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
+  line-height: 42px;
   text-align: center;
-  margin-top: 2rem;
+  background-color: #409EFF;
 }
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.footerContainer h5{
+  color: white;
 }
 </style>
