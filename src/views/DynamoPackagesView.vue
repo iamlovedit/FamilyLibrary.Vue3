@@ -1,16 +1,9 @@
 <template>
-    节点包
-
-  <el-backtop :right="100" :bottom="100" />
+  dynamo packages
 </template>
 
-<script>
-export default {
-  name: "DynamoPackagesView",
-  setup(){
+<script setup lang="ts">
 
-  }
-}
 </script>
 
 <style scoped>

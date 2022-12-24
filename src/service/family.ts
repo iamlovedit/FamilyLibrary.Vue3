@@ -1,3 +1,11 @@
-export function getfamilyCategoriesFetch(params:string) {
-    
+import fetch from "@/config/fetch";
+
+async function getfamilyCategoriesFetch() {
+
+}
+
+
+
+export {
+    getfamilyCategoriesFetch
 }
