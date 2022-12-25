@@ -1,8 +1,8 @@
-import { baseUrl } from "./env";
+import { gobalConfig } from "./env";
 
 export default async (url: string = '', data: any = {}, type: string = 'GET', method: string = 'fetch') => {
     type = type.toUpperCase();
-    url = baseUrl + url;
+    url = gobalConfig.baseUrl + url;
 
     if (type == 'GET') {
         let dataStr: string = '';
@@ -34,11 +34,11 @@ export default async (url: string = '', data: any = {}, type: string = 'GET', me
         }
 
         try {
-            const response= await fetch(url, requestConfig);
+            const response = await fetch(url, requestConfig);
             const responseJson = await response.json();
             return responseJson
         } catch (error) {
             throw new Error(error as string)
         }
-    } 
+    }
 }

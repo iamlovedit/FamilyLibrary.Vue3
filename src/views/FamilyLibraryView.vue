@@ -36,16 +36,14 @@ const defaultProps = {
 }
 
 onMounted(() => {
-  
+
 })
 
 </script>
 
 <style scoped>
 .libraryContainer {
-  width: 80%;
-  margin: 0 auto;
-  height: 400px;
+  flex: 1
 }
 
 .selectContainer {

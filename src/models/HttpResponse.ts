@@ -1,3 +1,6 @@
-export interface HttpResponse {
-    
+export class HttpResponse<T> {
+    code!: string;
+    success!: boolean;
+    message!: string;
+    response!: T;
 }
