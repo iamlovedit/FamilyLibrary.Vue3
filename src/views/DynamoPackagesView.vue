@@ -1,25 +1,89 @@
 <template>
-  <div class="packagesContainer">
+  <div class="rootContainer">
     <div class="headerContainer">
+      <el-select v-model="selectValue">
+        <el-option v-for="option in orderOptions" :key="option.value" :label="option.label" :value="option.value" />
+      </el-select>
+    </div>
+    <div class="packagesContainer">
 
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { ElMessage } from 'element-plus'
+import { getPackagesPageFetch } from '../service/dynamoPackages'
+import type { DynamoPackage } from '../models/DynamoPackage'
+import type { PageModel } from "@/models/PageModel";
 
+interface OrderOption {
+  value: string,
+  label: string
+}
+
+const packages = ref<DynamoPackage[]>()
+const orderOptions: OrderOption[] = [
+  {
+    value: 'downloads',
+    label: '下载量'
+  },
+  {
+    value: 'name',
+    label: '名称'
+  },
+  {
+    value: 'votes',
+    label: '点赞量'
+  },
+  {
+    value: 'updateTime',
+    label: '更新时间'
+  },
+]
+const selectValue = ref<OrderOption>(orderOptions[0])
+
+function getPackages(keyword: string | undefined, pageIndex: number = 1, pageSize: number = 30, orderField: string = 'downloads'): void {
+  const promise = getPackagesPageFetch(keyword, pageIndex, pageSize, orderField)
+  promise.
+    then(response => {
+      if (response.success) {
+        const page: PageModel<DynamoPackage> = response.response
+        packages.value = page.data;
+      }
+      else {
+        ElMessage.error("网络请求错误!")
+      }
+    })
+    .catch(error => {
+      ElMessage.error("网络请求错误!")
+    });
+}
+
+onMounted(() => {
+  getPackages(undefined);
+})
 </script>
 
 <style scoped>
-.packagesContainer {
-  background-color: brown;
+.rootContainer {
   flex: 1;
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .headerContainer {
-  height: 40px;
+  height: 44px;
+  line-height: 44px;
   width: 100%;
   margin: 0 auto;
-  background-color: aqua;
+}
+
+.packagesContainer {
+  flex: 1;
+  background-color: royalblue;
 }
 </style>
