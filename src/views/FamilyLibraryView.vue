@@ -12,18 +12,46 @@
 <script setup lang="ts">
 
 import { ref, onMounted } from "vue";
-import type { FamilyCategory } from '../models/FamilyCategory'
-import { getfamilyCategoriesFetch } from "../service/family";
+import { ElMessage } from 'element-plus'
+import type { FamilyCategory } from '@/models/FamilyCategory'
+import { getfamilyCategoriesFetch, getFamilyPageByCategoryFetch } from "@/service/family";
+import type { Family } from "@/models/Family";
 
 
-const categories = ref<FamilyCategory[] | null>(null);
+const categories = ref<FamilyCategory[]>();
+const familes=ref<Family[]>();
 const handleNodeClick = (category: FamilyCategory) => {
 
 }
 
-async function getFamilyCategories() {
-  await getfamilyCategoriesFetch();
+function getFamilyCategories() {
+  let promise = getfamilyCategoriesFetch();
+  promise.then(response=>{
+    if (response.success) {
+      categories.value=response.response;
+    }
+    else{
+      ElMessage.error(response.message)
+    }
+  }).catch(error=>{
+    ElMessage.error(error)
+  })
 }
+
+function getFamilyByCategory(categoryId:number,pageIndex:number,pageSize:number) {
+  let promise=getFamilyPageByCategoryFetch(categoryId,pageIndex,pageSize);
+  promise.then(response=>{
+    if (response.success) {
+      familes.value=response.response.data;
+    }
+    else{
+      ElMessage.error(response.message)
+    }
+  }).catch(error=>{
+    ElMessage.error(error)
+  })
+}
+
 
 async function filterFamilyByCategory(category: FamilyCategory) {
 
@@ -36,7 +64,7 @@ const defaultProps = {
 }
 
 onMounted(() => {
-
+  getFamilyCategories();
 })
 
 </script>

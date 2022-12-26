@@ -4,6 +4,11 @@
       <el-select v-model="selectValue">
         <el-option v-for="option in orderOptions" :key="option.value" :label="option.label" :value="option.value" />
       </el-select>
+
+      <div class="header_right">
+        <el-input v-model="searchValue" placeholder="输入要搜索的节点包"/>
+        <el-button type="primary">搜索</el-button>
+      </div>
     </div>
     <div class="packagesContainer">
 
@@ -14,8 +19,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { ElMessage } from 'element-plus'
-import { getPackagesPageFetch } from '../service/dynamoPackages'
-import type { DynamoPackage } from '../models/DynamoPackage'
+import { getPackagesPageFetch } from '@/service/dynamoPackages'
+import type { DynamoPackage } from '@/models/DynamoPackage'
 import type { PageModel } from "@/models/PageModel";
 
 interface OrderOption {
@@ -24,6 +29,7 @@ interface OrderOption {
 }
 
 const packages = ref<DynamoPackage[]>()
+const searchValue=ref<string>('');
 const orderOptions: OrderOption[] = [
   {
     value: 'downloads',
@@ -80,6 +86,12 @@ onMounted(() => {
   line-height: 44px;
   width: 100%;
   margin: 0 auto;
+}
+
+.header_right{
+  float: right;
+  height: inherit;
+  line-height: inherit;
 }
 
 .packagesContainer {

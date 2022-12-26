@@ -36,6 +36,8 @@ export class HttpRequest {
                     throw new Error(response.statusText)
                 }
                 return response.json() as Promise<T>
+            }).catch(error=>{
+                throw new Error(error);
             })
     }
 }
