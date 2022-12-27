@@ -1,7 +1,7 @@
 <template>
   <div class="rootContainer">
     <div class="headerContainer">
-      <el-select v-model="selectValue">
+      <el-select v-model="selectValue" @change="onSelectedChange">
         <el-option v-for="option in orderOptions" :key="option.value" :label="option.label" :value="option.value" />
       </el-select>
 
@@ -13,6 +13,7 @@
     <div class="packagesContainer">
 
     </div>
+    <PackageDetails :dyanmoPackage="currentPackage"/>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import { ElMessage } from 'element-plus'
 import { getPackagesPageFetch } from '@/service/dynamoPackages'
 import type { DynamoPackage } from '@/models/DynamoPackage'
 import type { PageModel } from "@/models/PageModel";
+import  PackageDetails  from "@/components/PackageDetails.vue";
 
 interface OrderOption {
   value: string,
@@ -30,6 +32,7 @@ interface OrderOption {
 
 const packages = ref<DynamoPackage[]>()
 const searchValue=ref<string>('');
+const currentPackage=ref<DynamoPackage>();
 const orderOptions: OrderOption[] = [
   {
     value: 'downloads',
@@ -49,6 +52,10 @@ const orderOptions: OrderOption[] = [
   },
 ]
 const selectValue = ref<OrderOption>(orderOptions[0])
+
+function onSelectedChange(value:string) {
+
+}
 
 function getPackages(keyword: string | undefined, pageIndex: number = 1, pageSize: number = 30, orderField: string = 'downloads'): void {
   const promise = getPackagesPageFetch(keyword, pageIndex, pageSize, orderField)
