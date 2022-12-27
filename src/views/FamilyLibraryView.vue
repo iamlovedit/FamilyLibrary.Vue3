@@ -14,14 +14,22 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from 'element-plus'
 import type { FamilyCategory } from '@/models/FamilyCategory'
-import { getfamilyCategoriesFetch, getFamilyPageByCategoryFetch } from "@/service/family";
+import {
+  getfamilyCategoriesFetch,
+  getFamilyPageByCategoryFetch,
+  getFamilyDetailFetch,
+  getFamilyVersionFetch,
+  getFamilyPageByKeywordFetch,
+  getFamilyFileByVersionFetch
+} from "@/service/family";
 import type { Family } from "@/models/Family";
 import FamilyListVue from "@/components/FamilyList.vue";
 
 const categories = ref<FamilyCategory[]>();
 const familes = ref<Family[]>();
-const handleNodeClick = (category: FamilyCategory) => {
 
+function handleNodeClick(category: FamilyCategory) {
+  
 }
 
 function getFamilyCategories() {
@@ -53,7 +61,7 @@ function getFamilyByCategory(categoryId: number, pageIndex: number, pageSize: nu
 }
 
 
-async function filterFamilyByCategory(category: FamilyCategory) {
+function filterFamilyByCategory(category: FamilyCategory) {
 
 }
 

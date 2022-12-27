@@ -80,7 +80,6 @@ function onSearchClick(): void {
   }
 }
 
-
 function getPackages(keyword: string = '', pageIndex: number = 1, pageSize: number = 30, orderField: string = 'downloads'): void {
   const promise = getPackagesPageFetch(keyword, pageIndex, pageSize, orderField)
   promise.

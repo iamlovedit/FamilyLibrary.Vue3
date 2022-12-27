@@ -20,7 +20,7 @@ export class HttpRequest {
         }
     }
 
-    async getAsync<T>(route: string, data: any = {}): Promise<T> {
+    async getAsync<T>(route: string = '', data: any = {}): Promise<T> {
         let url = this.baseUrl + route;
         let dataStr: string = '';
         Object.keys(data).forEach(key => {
@@ -36,7 +36,7 @@ export class HttpRequest {
                     throw new Error(response.statusText)
                 }
                 return response.json() as Promise<T>
-            }).catch(error=>{
+            }).catch(error => {
                 throw new Error(error);
             })
     }
