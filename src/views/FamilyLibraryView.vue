@@ -16,38 +16,38 @@ import { ElMessage } from 'element-plus'
 import type { FamilyCategory } from '@/models/FamilyCategory'
 import { getfamilyCategoriesFetch, getFamilyPageByCategoryFetch } from "@/service/family";
 import type { Family } from "@/models/Family";
-
+import FamilyListVue from "@/components/FamilyList.vue";
 
 const categories = ref<FamilyCategory[]>();
-const familes=ref<Family[]>();
+const familes = ref<Family[]>();
 const handleNodeClick = (category: FamilyCategory) => {
 
 }
 
 function getFamilyCategories() {
   let promise = getfamilyCategoriesFetch();
-  promise.then(response=>{
+  promise.then(response => {
     if (response.success) {
-      categories.value=response.response;
+      categories.value = response.response;
     }
-    else{
+    else {
       ElMessage.error(response.message)
     }
-  }).catch(error=>{
+  }).catch(error => {
     ElMessage.error(error)
   })
 }
 
-function getFamilyByCategory(categoryId:number,pageIndex:number,pageSize:number) {
-  let promise=getFamilyPageByCategoryFetch(categoryId,pageIndex,pageSize);
-  promise.then(response=>{
+function getFamilyByCategory(categoryId: number, pageIndex: number, pageSize: number) {
+  let promise = getFamilyPageByCategoryFetch(categoryId, pageIndex, pageSize);
+  promise.then(response => {
     if (response.success) {
-      familes.value=response.response.data;
+      familes.value = response.response.data;
     }
-    else{
+    else {
       ElMessage.error(response.message)
     }
-  }).catch(error=>{
+  }).catch(error => {
     ElMessage.error(error)
   })
 }
