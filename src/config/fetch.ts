@@ -33,7 +33,7 @@ export class HttpRequest {
         return await fetch(url, this.requestConfig)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(response.statusText)
+                    throw new Error(response.status.toString())
                 }
                 return response.json() as Promise<T>
             }).catch(error => {

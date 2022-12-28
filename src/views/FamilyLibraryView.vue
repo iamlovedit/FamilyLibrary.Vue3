@@ -1,7 +1,7 @@
 <template>
   <div class="libraryContainer">
     <div class="selectContainer">
-      <el-tree :data="categories" :props="defaultProps" @node-click="handleNodeClick" />
+      <el-tree :data="categories" :props="defaultProps" @node-click="handleNodeClick" accordion />
     </div>
     <div>
 
@@ -29,7 +29,7 @@ const categories = ref<FamilyCategory[]>();
 const familes = ref<Family[]>();
 
 function handleNodeClick(category: FamilyCategory) {
-  
+  console.log(category);
 }
 
 function getFamilyCategories() {
@@ -42,7 +42,7 @@ function getFamilyCategories() {
       ElMessage.error(response.message)
     }
   }).catch(error => {
-    ElMessage.error(error)
+    ElMessage.error(error.message)
   })
 }
 
@@ -56,7 +56,7 @@ function getFamilyByCategory(categoryId: number, pageIndex: number, pageSize: nu
       ElMessage.error(response.message)
     }
   }).catch(error => {
-    ElMessage.error(error)
+    ElMessage.error(error.message)
   })
 }
 
@@ -79,7 +79,9 @@ onMounted(() => {
 
 <style scoped>
 .libraryContainer {
-  flex: 1
+  flex: 1;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .selectContainer {

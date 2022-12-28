@@ -16,12 +16,14 @@
     </div>
     <div class="packagesContainer">
       <div class="listContainer">
-        <ul v-for="packageObj in packagesPage?.data" :key="packageObj.id">
-
-        </ul>
+        <li v-for="packageObj in packagesPage?.data" :key="packageObj.id">
+          <el-button type="primary" link @click="onPackageClick">
+            {{ packageObj.name }}
+          </el-button>
+        </li>
       </div>
       <div class="paginationContainer">
-        <el-pagination background layout="prev, pager, next" :total="packagesPage?.dataCount"
+        <el-pagination background layout="prev, pager, next" :page-count="packagesPage?.pageCount"
           v-model:current-page="pageIndex" />
       </div>
     </div>
@@ -49,7 +51,7 @@ const currentPackage = ref<DynamoPackage>();
 const drawerOpened = ref<boolean>(false);
 const packagesPage = ref<PageModel<DynamoPackage>>();
 const pageIndex = ref<number>(1);
-
+const pageSize: number = 20;
 const orderOptions: OrderOption[] = [
   {
     value: 'downloads',
@@ -71,16 +73,20 @@ const orderOptions: OrderOption[] = [
 const selectValue = ref<OrderOption>(orderOptions[0])
 
 function onSelectedChange(value: string): void {
-  getPackages(searchValue.value, 1, 30, value);
+  getPackages(searchValue.value, 1, pageSize, value);
+}
+
+function onPackageClick(value: any) {
+  console.log(value);
 }
 
 function onSearchClick(): void {
   if (searchValue.value) {
-    getPackages(searchValue.value, 1, 30);
+    getPackages(searchValue.value, 1, pageSize);
   }
 }
 
-function getPackages(keyword: string = '', pageIndex: number = 1, pageSize: number = 30, orderField: string = 'downloads'): void {
+function getPackages(keyword: string = '', pageIndex: number = 1, pageSize: number = 20, orderField: string = 'downloads'): void {
   const promise = getPackagesPageFetch(keyword, pageIndex, pageSize, orderField)
   promise.
     then(response => {
@@ -102,7 +108,7 @@ onMounted(() => {
 })
 
 watch(pageIndex, (newPageIndex) => {
-  getPackages(searchValue.value, newPageIndex, 30, selectValue.value.value);
+  getPackages(searchValue.value, newPageIndex, pageSize, selectValue.value.value);
 })
 
 </script>
@@ -136,15 +142,21 @@ watch(pageIndex, (newPageIndex) => {
 
 .listContainer {
   width: 100%;
-  flex: 1;
   border: 1px solid lightgray;
+  overflow-y: scroll;
+  height: 400px;
 }
 
 .paginationContainer {
-  margin-top: 1%;
+  margin-top: 20px;
 }
 
 .listContainer ul {
-  height: 20px;
+  display: flex;
+  overflow-y: scroll;
+}
+
+li {
+  flex: none;
 }
 </style>
