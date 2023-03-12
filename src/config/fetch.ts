@@ -1,5 +1,4 @@
 import { gobalConfig } from "./env";
-import type { HttpResponse } from '../models/HttpResponse'
 export class HttpRequest {
     readonly requestConfig: any = {
         method: 'GET',
@@ -11,12 +10,12 @@ export class HttpRequest {
         cache: "force-cache"
     }
     readonly baseUrl: string;
-    constructor(controller: string, baseUrl: string = '') {
+    constructor(controller: string, baseUrl?: string) {
         if (baseUrl) {
-            this.baseUrl = baseUrl + controller;
+            this.baseUrl = `${baseUrl}/${controller}`
         }
         else {
-            this.baseUrl = gobalConfig.baseUrl + controller;
+            this.baseUrl = `${gobalConfig.baseUrl}/${controller}`
         }
     }
 

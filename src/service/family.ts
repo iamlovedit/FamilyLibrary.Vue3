@@ -6,7 +6,7 @@ import type { PageModel } from "@/models/PageModel";
 const httpRequest = new HttpRequest('family');
 
 function getfamilyCategoriesFetch(): Promise<HttpResponse<FamilyCategory[]>> {
-    const promise = httpRequest.getAsync<HttpResponse<FamilyCategory[]>>('/categories');
+    const promise = httpRequest.getAsync<HttpResponse<FamilyCategory[]>>('/v1/categories');
     return promise;
 }
 function getFamilyPageByCategoryFetch(categoryId: number, pageIndex: number, pageSize: number): Promise<HttpResponse<PageModel<Family>>> {
@@ -32,12 +32,12 @@ function getFamilyFileByVersionFetch(id: number, version: number) {
 }
 
 function getFamilyDetailFetch(id: number): Promise<HttpResponse<Family>> {
-    const route = `/${id}`
+    const route = `/v1/${id}`
     const promise = httpRequest.getAsync<HttpResponse<Family>>(route);
     return promise;
 }
 function getFamilyVersionFetch(id: number): Promise<HttpResponse<number[]>> {
-    const route = `/versions/${id}`
+    const route = `/v1/versions/${id}`
     const promise = httpRequest.getAsync<HttpResponse<number[]>>(route);
     return promise;
 }

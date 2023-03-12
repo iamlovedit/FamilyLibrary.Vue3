@@ -1,6 +1,4 @@
-<template>
-
-</template>
+<template></template>
 <script lang="ts">
 interface Props {
     dyanmoPackage: DynamoPackage | undefined;
@@ -9,11 +7,10 @@ interface Props {
 
 <script setup lang="ts">
 import type { DynamoPackage } from "@/models/DynamoPackage";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+
 
 defineProps<Props>();
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

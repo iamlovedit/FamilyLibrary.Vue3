@@ -1,7 +1,7 @@
 <template>
   <div class="rootContainer">
     <div class="searchContainer">
-      <el-input v-model="searchValue" placeholder="输入要搜索的节点包">
+      <el-input v-model="searchInputValue" placeholder="输入要搜索的节点包">
         <template #append>
           <el-button @click="onSearchClick">
             搜索
@@ -10,14 +10,14 @@
       </el-input>
     </div>
     <div class="selectContainer">
-      <el-select v-model="selectValue" @change="onSelectedChange">
+      <el-select v-model="currentOrderOption" @change="onSelectedChange">
         <el-option v-for="option in orderOptions" :key="option.value" :label="option.label" :value="option.value" />
       </el-select>
     </div>
     <div class="packagesContainer">
       <div class="listContainer">
         <li v-for="packageObj in packagesPage?.data" :key="packageObj.id">
-          <el-button type="primary" link @click="onPackageClick">
+          <el-button type="primary" link @click="onPackageClick(packageObj)">
             {{ packageObj.name }}
           </el-button>
         </li>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <el-drawer v-model="drawerOpened" direction="ltr">
-      <PackageDetails :dyanmoPackage="currentPackage" />
+      <PackageDetails :dyanmoPackage="currentPackage" title="currentPackage.name" />
     </el-drawer>
   </div>
 </template>
@@ -46,7 +46,7 @@ interface OrderOption {
   label: string
 }
 
-const searchValue = ref<string>('');
+const searchInputValue = ref<string | undefined>();
 const currentPackage = ref<DynamoPackage>();
 const drawerOpened = ref<boolean>(false);
 const packagesPage = ref<PageModel<DynamoPackage>>();
@@ -70,29 +70,29 @@ const orderOptions: OrderOption[] = [
     label: '更新时间'
   },
 ]
-const selectValue = ref<OrderOption>(orderOptions[0])
+const currentOrderOption = ref<OrderOption>(orderOptions[0])
 
 function onSelectedChange(value: string): void {
-  getPackages(searchValue.value, 1, pageSize, value);
+  getPackages(searchInputValue.value, 1, pageSize, value);
 }
 
-function onPackageClick(value: any) {
-  console.log(value);
+function onPackageClick(packageObj: DynamoPackage) {
+  currentPackage.value = packageObj;
+  drawerOpened.value = true;
 }
 
 function onSearchClick(): void {
-  if (searchValue.value) {
-    getPackages(searchValue.value, 1, pageSize);
+  if (searchInputValue.value) {
+    getPackages(searchInputValue.value, 1, pageSize);
   }
 }
 
-function getPackages(keyword: string = '', pageIndex: number = 1, pageSize: number = 20, orderField: string = 'downloads'): void {
+function getPackages(keyword?: string, pageIndex: number = 1, pageSize: number = 20, orderField: string = 'downloads'): void {
   const promise = getPackagesPageFetch(keyword, pageIndex, pageSize, orderField)
   promise.
     then(response => {
       if (response.success) {
         packagesPage.value = response.response
-        console.log(response.response);
       }
       else {
         ElMessage.error(response.message)
@@ -108,7 +108,7 @@ onMounted(() => {
 })
 
 watch(pageIndex, (newPageIndex) => {
-  getPackages(searchValue.value, newPageIndex, pageSize, selectValue.value.value);
+  getPackages(searchInputValue.value, newPageIndex, pageSize, currentOrderOption.value.value);
 })
 
 </script>
