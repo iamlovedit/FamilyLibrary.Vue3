@@ -1,7 +1,7 @@
 <template>
   <div class="rootContainer">
     <div class="searchContainer">
-      <el-input v-model="searchInputValue" placeholder="输入要搜索的节点包">
+      <el-input v-model="searchInputValue" clearable placeholder="输入要搜索的节点包">
         <template #append>
           <el-button @click="onSearchClick">
             搜索
@@ -15,13 +15,27 @@
       </el-select>
     </div>
     <div class="packagesContainer">
-      <div class="listContainer">
+
+      <el-table :data="packagesPage?.data" style="width: 100%; max-height: 600px;">
+        <el-table-column prop="name" label="名称" width="*">
+          <template #default="scope">
+            <el-button type="primary" link @click="onPackageClick(scope.row)">
+              {{ scope.row.name }}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" width="*" />
+        <el-table-column prop="updateTime" label="更新时间" width="*" />
+        <el-table-column prop="downloads" label="下载量" width="*" />
+        <el-table-column prop="votes" label="点赞量" width="*" />
+      </el-table>
+      <!-- <div class="listContainer">
         <li v-for="packageObj in packagesPage?.data" :key="packageObj.id">
           <el-button type="primary" link @click="onPackageClick(packageObj)">
             {{ packageObj.name }}
           </el-button>
         </li>
-      </div>
+      </div> -->
       <div class="paginationContainer">
         <el-pagination background layout="prev, pager, next" :page-count="packagesPage?.pageCount"
           v-model:current-page="pageIndex" />
@@ -45,7 +59,6 @@ interface OrderOption {
   value: string,
   label: string
 }
-
 const searchInputValue = ref<string | undefined>();
 const currentPackage = ref<DynamoPackage>();
 const drawerOpened = ref<boolean>(false);
@@ -79,6 +92,7 @@ function onSelectedChange(value: string): void {
 function onPackageClick(packageObj: DynamoPackage) {
   currentPackage.value = packageObj;
   drawerOpened.value = true;
+  console.log(packageObj);
 }
 
 function onSearchClick(): void {
@@ -115,48 +129,46 @@ watch(pageIndex, (newPageIndex) => {
 
 <style scoped>
 .rootContainer {
-  flex: 1;
   width: 70%;
+  height: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .selectContainer {
+  flex: 0;
+  width: 200px;
   margin-top: 1%;
 }
 
 .searchContainer {
-  height: inherit;
-  line-height: inherit;
-  width: 20%;
+  flex: 0;
+  width: 300px;
 }
 
 .packagesContainer {
   flex: 1;
   display: flex;
-  margin-top: 1%;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: stretch;
+  margin-top: 1%;
 }
 
 .listContainer {
   width: 100%;
-  border: 1px solid lightgray;
-  overflow-y: scroll;
-  height: 400px;
+  overflow-y: auto;
+  height: 600px;
 }
 
 .paginationContainer {
+  flex: 0;
   margin-top: 20px;
-}
-
-.listContainer ul {
-  display: flex;
-  overflow-y: scroll;
+  align-self: flex-end
 }
 
 li {
-  flex: none;
+  height: 60px;
 }
 </style>
