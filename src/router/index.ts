@@ -24,8 +24,19 @@ const router = createRouter({
     },
     {
       path:'/packages',
-      name:'packages',
-      component:()=>import('../views/DynamoPackagesView.vue')
+      component:() => import('../views/PackageContainer.vue'),
+      children: [
+        {
+          path: '',
+          name: 'packages',
+          component:()=>import('../views/DynamoPackagesView.vue')
+        },
+        {
+          path:'detail',
+          name:'packagesDetail',
+          component:()=>import('../views/DetailView.vue')
+        }
+      ]
     }
   ]
 })

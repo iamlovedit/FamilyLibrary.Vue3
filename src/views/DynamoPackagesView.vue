@@ -54,11 +54,13 @@ import { getPackagesPageFetch } from '@/service/dynamoPackages'
 import type { DynamoPackage } from '@/models/DynamoPackage'
 import type { PageModel } from "@/models/PageModel";
 import PackageDetails from "@/components/PackageDetails.vue";
+import {useRouter} from "vue-router";
 
 interface OrderOption {
   value: string,
   label: string
 }
+const router = useRouter()
 const searchInputValue = ref<string | undefined>();
 const currentPackage = ref<DynamoPackage>();
 const drawerOpened = ref<boolean>(false);
@@ -90,8 +92,14 @@ function onSelectedChange(value: string): void {
 }
 
 function onPackageClick(packageObj: DynamoPackage) {
-  currentPackage.value = packageObj;
-  drawerOpened.value = true;
+  router.push({
+    name: 'packagesDetail',
+    query: {
+      id: packageObj.id
+    }
+  })
+  // currentPackage.value = packageObj;
+  // drawerOpened.value = true;
   console.log(packageObj);
 }
 
