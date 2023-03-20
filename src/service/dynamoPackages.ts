@@ -19,7 +19,7 @@ function getPackagesPageFetch(keyword?: string, pageIndex: number = 1, pageSize:
     return promise;
 }
 function getPackageDetailFetch(id: string) {
-    const route: string = `/${id}`
+    const route: string = `/v1/${id}`
     const promise = httpRequest.getAsync<HttpResponse<DynamoPackage>>(route);
     return promise;
 }

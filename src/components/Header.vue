@@ -36,10 +36,7 @@ function handleIconClick() {
 
 function handleSelect(key: string) {
     router.push({
-        name: key,
-        query: {
-            ...route.query
-        }
+        name: key
     })
 }
 

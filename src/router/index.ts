@@ -18,23 +18,23 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path:'/library',
-      name:'library',
-      component:()=>import('../views/FamilyLibraryView.vue')
+      path: '/library',
+      name: 'library',
+      component: () => import('../views/FamilyLibraryView.vue')
     },
     {
-      path:'/packages',
-      component:() => import('../views/PackageContainer.vue'),
+      path: '/packages',
+      component: () => import('../views/packages/PackagesContainer.vue'),
       children: [
         {
           path: '',
           name: 'packages',
-          component:()=>import('../views/DynamoPackagesView.vue')
+          component: () => import('../views/packages/PackagesTable.vue')
         },
         {
-          path:'detail',
-          name:'packagesDetail',
-          component:()=>import('../views/DetailView.vue')
+          path: ':id',
+          name: 'packagesDetail',
+          component: () => import('../views/packages/PackageDetail.vue')
         }
       ]
     }
