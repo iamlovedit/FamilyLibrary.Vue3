@@ -24,8 +24,6 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  padding: 2em 4em;
 }
 
 .footerContainer {

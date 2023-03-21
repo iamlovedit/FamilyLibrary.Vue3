@@ -15,7 +15,6 @@
             </el-select>
         </div>
         <div class="packagesContainer">
-
             <el-table :data="packagesPage?.data" style="width: 100%; max-height: 600px;">
                 <el-table-column prop="name" label="名称" width="*">
                     <template #default="scope">

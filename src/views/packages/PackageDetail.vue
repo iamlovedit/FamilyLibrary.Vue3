@@ -8,7 +8,12 @@
         </div>
         <div>
             <ul class="versionsContainer">
-                <li></li>
+                <li v-for="version in versions">
+                    <el-link type="primary" href="`https://dynamopackages.com/download/${packageId}/${version.version}`" 
+                        underline>
+                        {{ version.version }}
+                    </el-link>
+                </li>
             </ul>
         </div>
     </div>
@@ -21,17 +26,23 @@ import { ElMessage } from 'element-plus'
 
 import { getPackageDetailFetch } from "@/service/dynamoPackages";
 import type { DynamoPackage } from "@/models/DynamoPackage";
+import type { PackageVersion } from "@/models/PackageVersion";
 
 const route = useRoute();
 const packageObj = ref<DynamoPackage>();
-
+const versions = ref<PackageVersion[]>();
+const packageId = ref<string>();
 
 function getPackageDetail(id: string) {
     const promise = getPackageDetailFetch(id);
     promise.then(httpResponse => {
         if (httpResponse.success) {
             packageObj.value = httpResponse.response;
-            console.log(packageObj.value)
+            const sortVersions = packageObj.value.versions.sort((source, target) => {
+                return source.createTime < target.createTime ? 1 : -1;
+            })
+            versions.value = sortVersions;
+            console.log(versions.value);
         }
         else {
             ElMessage.error(httpResponse.message)
@@ -42,19 +53,20 @@ function getPackageDetail(id: string) {
 }
 
 onMounted(() => {
-    let packageId = route.params['id'] as string;
-    getPackageDetail(packageId);
+    packageId.value = route.params['id'] as string;
+    getPackageDetail(packageId.value);
 })
 </script>
 
 
 <style scoped>
 .rootContainer {
-    width: 80%;
+    width: 50%;
     height: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    justify-content: start;
 }
 
 .rootContainer div:first-child {
@@ -65,24 +77,26 @@ onMounted(() => {
 }
 
 .rootContainer div:nth-child(2) {
-    text-align: center;
+    text-align: left;
     font-size: large;
-    flex: 1 1 30%;
+    flex: 1 1 auto;
+    margin-top: 50px;
 }
 
 .rootContainer div:nth-child(3) {
-    background-color: rgb(153, 211, 46);
-    text-align: center;
-    flex: 1 1 60%;
+    flex: 1 1 100%;
+    margin-top: 50px;
+    text-align: left;
 }
 
 .versionsContainer {
-    height: 100%;
     display: flex;
     overflow-y: auto;
+    flex-direction: column;
 }
 
 .versionsContainer li {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+
 }
 </style>

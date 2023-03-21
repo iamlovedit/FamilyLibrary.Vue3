@@ -1,6 +1,6 @@
 <template>
   <div class="libraryContainer">
-    <div class="selectContainer">
+    <div>
       <el-tree :data="categories" :props="defaultProps" @node-click="handleNodeClick" accordion />
     </div>
     <div>
@@ -81,10 +81,19 @@ onMounted(() => {
 .libraryContainer {
   flex: 1;
   width: 80%;
-  margin: 0 auto;
+  margin: 40px auto;
+  display: flex;
+  flex-flow: row nowrap;
 }
 
-.selectContainer {
-  float: left;
+.libraryContainer div:first-child {
+  width: 180px;
+  flex: none;
+}
+
+.libraryContainer div:nth-child(2) {
+  background-color: lightcyan;
+  flex: 1;
+  margin-left: 20px;
 }
 </style>
