@@ -98,7 +98,13 @@ function getPackages(keyword?: string, pageIndex: number = 1, pageSize: number =
 
 function onSearchClick(): void {
     if (searchInputValue.value) {
-        getPackages(searchInputValue.value, 1, pageSize);
+        router.push({
+            name: 'search',
+            query: {
+                keyword: searchInputValue.value
+            }
+        })
+        // getPackages(searchInputValue.value, 1, pageSize);
     }
 }
 
@@ -121,8 +127,8 @@ watch(pageIndex, (newPageIndex) => {
 
 <style scoped>
 .rootContainer {
-    width: 70%;
-    height: 100%;
+    flex: 1;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -132,7 +138,7 @@ watch(pageIndex, (newPageIndex) => {
 .selectContainer {
     flex: 0;
     width: 200px;
-    margin-top: 1%;
+    margin-top: 20px;
 }
 
 .searchContainer {

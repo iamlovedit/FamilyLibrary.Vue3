@@ -18,9 +18,13 @@ function getPackagesPageFetch(keyword?: string, pageIndex: number = 1, pageSize:
     const promise = httpRequest.getAsync<HttpResponse<PageModel<DynamoPackage>>>('/v1/packages', data);
     return promise;
 }
-function getPackageDetailFetch(id: string) {
+function getPackageDetailFetch(id: string, pageIndex: number = 1, pageSize: number = 20) {
     const route: string = `/v1/${id}`
-    const promise = httpRequest.getAsync<HttpResponse<DynamoPackage>>(route);
+    let data = {
+        pageIndex,
+        pageSize
+    }
+    const promise = httpRequest.getAsync<HttpResponse<DynamoPackage>>(route, data);
     return promise;
 }
 

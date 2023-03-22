@@ -3,8 +3,16 @@
     <div>
       <el-tree :data="categories" :props="defaultProps" @node-click="handleNodeClick" accordion />
     </div>
-    <div>
+    <div class="listContianer">
+      <div>
 
+      </div>
+      <div>
+
+      </div>
+      <div>
+
+      </div>
     </div>
   </div>
 </template>
@@ -87,13 +95,30 @@ onMounted(() => {
 }
 
 .libraryContainer div:first-child {
-  width: 180px;
+  width: 200px;
   flex: none;
 }
 
-.libraryContainer div:nth-child(2) {
-  background-color: lightcyan;
+.listContianer {
   flex: 1;
   margin-left: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.listContianer div:first-child {
+  height: 50px;
+  width: 100%;
+  background-color: burlywood;
+}
+
+.listContianer div:nth-child(2) {
+  flex: 1;
+  background-color: blanchedalmond;
+}
+
+.listContianer div:nth-child(3) {
+  height: 50px;
+  background-color: aqua;
 }
 </style>

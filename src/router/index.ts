@@ -1,13 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('../views/HomeView.vue')
     },
     {
       path: '/about',
@@ -24,7 +22,7 @@ const router = createRouter({
     },
     {
       path: '/packages',
-      component: () => import('../views/packages/PackagesContainer.vue'),
+      component: () => import('../views/packages/PackagesHome.vue'),
       children: [
         {
           path: '',
@@ -35,6 +33,11 @@ const router = createRouter({
           path: ':id',
           name: 'packagesDetail',
           component: () => import('../views/packages/PackageDetail.vue')
+        },
+        {
+          path: 'search',
+          name: 'search',
+          component: () => import('../views/packages/PackageSearch.vue')
         }
       ]
     }
