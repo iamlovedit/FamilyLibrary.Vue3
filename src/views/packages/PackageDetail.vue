@@ -3,46 +3,50 @@
         <div>
             {{ packageObj?.name }}
         </div>
-        <div>
+        <div class="descriptionContianer">
             {{ packageObj?.description }}
         </div>
-        <div>
-            <ul class="versionsContainer">
-                <li v-for="version in versions">
-                    <el-link type="primary" href="`https://dynamopackages.com/download/${packageId}/${version.version}`" 
-                        underline>
-                        {{ version.version }}
-                    </el-link>
-                </li>
-            </ul>
+        <div class="mainContentContianer">
+            <el-table :data="versionsPage?.data" style="width: 100%;height:900px">
+                <el-table-column prop="version" label="版本" width="*">
+                    <template #default="scope">
+                        <el-link type="primary" underline
+                            href="`https://dynamopackages.com/download/${packageId}/${scope.row.version}`">
+                            {{ scope.row.version }}
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="createTime" label="发布时间" width="*" />
+            </el-table>
+            <div class="paginationContainer">
+                <el-pagination background layout="prev, pager, next" :page-count="versionsPage?.pageCount"
+                    v-model:current-page="pageIndex" />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { ElMessage } from 'element-plus'
 
-import { getPackageDetailFetch } from "@/service/dynamoPackages";
+import { getPackageVersionsFetch } from "@/service/dynamoPackages";
 import type { DynamoPackage } from "@/models/DynamoPackage";
 import type { PackageVersion } from "@/models/PackageVersion";
+import type { PageModel } from "@/models/PageModel";
 
 const route = useRoute();
 const packageObj = ref<DynamoPackage>();
-const versions = ref<PackageVersion[]>();
 const packageId = ref<string>();
+const versionsPage = ref<PageModel<PackageVersion>>();
+const pageIndex = ref<number>(1);
 
-function getPackageDetail(id: string) {
-    const promise = getPackageDetailFetch(id);
+function getPackageVersions(pageIndex: number = 1) {
+    const promise = getPackageVersionsFetch(packageId.value as string, pageIndex);
     promise.then(httpResponse => {
         if (httpResponse.success) {
-            packageObj.value = httpResponse.response;
-            const sortVersions = packageObj.value.versions.sort((source, target) => {
-                return source.createTime < target.createTime ? 1 : -1;
-            })
-            versions.value = sortVersions;
-            console.log(versions.value);
+            versionsPage.value = httpResponse.response;
         }
         else {
             ElMessage.error(httpResponse.message)
@@ -54,10 +58,13 @@ function getPackageDetail(id: string) {
 
 onMounted(() => {
     packageId.value = route.params['id'] as string;
-    getPackageDetail(packageId.value);
+    getPackageVersions();
+})
+
+watch(pageIndex, (newIndex) => {
+    getPackageVersions(newIndex)
 })
 </script>
-
 
 <style scoped>
 .rootContainer {
@@ -76,27 +83,27 @@ onMounted(() => {
     flex: 0 0 auto;
 }
 
-.rootContainer div:nth-child(2) {
+.descriptionContianer {
     text-align: left;
     font-size: large;
-    flex: 1 1 auto;
-    margin-top: 50px;
+    flex: 0 0 auto;
+    flex: none;
+    margin-top: 40px;
 }
 
-.rootContainer div:nth-child(3) {
-    flex: 1 1 100%;
-    margin-top: 50px;
-    text-align: left;
-}
 
-.versionsContainer {
+.mainContentContianer {
+    flex: 1;
+    margin-top: 50px;
     display: flex;
-    overflow-y: auto;
+    flex-wrap: nowrap;
     flex-direction: column;
+    justify-content: start
 }
 
-.versionsContainer li {
-    flex: 1 1 0;
-
+.paginationContainer {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    margin-top: 20px;
 }
 </style>

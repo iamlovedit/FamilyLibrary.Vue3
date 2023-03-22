@@ -2,6 +2,7 @@ import { HttpRequest } from "@/config/fetch";
 import type { PageModel } from "@/models/PageModel";
 import type { DynamoPackage } from "@/models/DynamoPackage";
 import type { HttpResponse } from '@/models/HttpResponse';
+import type { PackageVersion } from "@/models/PackageVersion";
 
 const httpRequest = new HttpRequest('package')
 function getPackagesPageFetch(keyword?: string, pageIndex: number = 1, pageSize: number = 30, orderField?: string) {
@@ -18,17 +19,17 @@ function getPackagesPageFetch(keyword?: string, pageIndex: number = 1, pageSize:
     const promise = httpRequest.getAsync<HttpResponse<PageModel<DynamoPackage>>>('/v1/packages', data);
     return promise;
 }
-function getPackageDetailFetch(id: string, pageIndex: number = 1, pageSize: number = 20) {
-    const route: string = `/v1/${id}`
+function getPackageVersionsFetch(id: string, pageIndex: number = 1, pageSize: number = 20) {
     let data = {
         pageIndex,
         pageSize
     }
-    const promise = httpRequest.getAsync<HttpResponse<DynamoPackage>>(route, data);
+    const promise = httpRequest.getAsync<HttpResponse<PageModel<PackageVersion>>>(`/v1/${id}`, data);
     return promise;
 }
 
+
 export {
     getPackagesPageFetch,
-    getPackageDetailFetch
+    getPackageVersionsFetch
 }
