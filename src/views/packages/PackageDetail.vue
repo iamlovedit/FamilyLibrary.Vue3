@@ -57,7 +57,7 @@ function getPackageVersions(pageIndex: number = 1) {
 }
 
 onMounted(() => {
-    packageId.value = route.params['id'] as string;
+    packageId.value = route.params['id'].toLocaleString();
     getPackageVersions();
 })
 

@@ -1,12 +1,15 @@
 <template>
     <div class="searchContinaer">
-        <div>
-
-        </div>
+        <PackageTable :keyword=keyword />
     </div>
 </template>
 
 <script setup lang="ts">
+import { useRoute } from "vue-router";
+import PackageTable from "@/components/PackageTable.vue";
+
+const route = useRoute();
+const keyword = route.query['keyword']?.toLocaleString();
 
 </script>
 
@@ -14,9 +17,5 @@
 .searchContinaer {
     width: 80%;
     margin: 40px auto;
-    flex: 1;
-    background-color: lightblue;
-    display: flex;
-    flex-flow: column nowrap;
 }
 </style>
