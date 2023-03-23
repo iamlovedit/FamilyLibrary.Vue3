@@ -27,7 +27,7 @@ const router = createRouter({
         {
           path: '',
           name: 'packages',
-          component: () => import('../views/packages/PackagesTable.vue')
+          component: () => import('../views/packages/PackagesBrowser.vue')
         },
         {
           path: ':id',
