@@ -1,5 +1,12 @@
 <template>
     <div class="rootContainer">
+        <div class="breadcrumbContainer">
+            <el-breadcrumb separator-class="el-icon-arrow-right">
+                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/packages' }">节点包</el-breadcrumb-item>
+                <el-breadcrumb-item>节点包详情</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
         <div>
             {{ packageObj?.name }}
         </div>
@@ -74,6 +81,10 @@ watch(pageIndex, (newIndex) => {
     display: flex;
     flex-direction: column;
     justify-content: start;
+}
+
+.breadcrumbContainer {
+    flex: 0;
 }
 
 .rootContainer div:first-child {

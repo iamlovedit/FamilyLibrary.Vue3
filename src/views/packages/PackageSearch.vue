@@ -15,7 +15,7 @@ const keyword = route.query['keyword']?.toLocaleString();
 
 <style scoped>
 .searchContinaer {
-    width: 80%;
-    margin: 40px auto;
+    width: 100%;
+    margin: 0 auto;
 }
 </style>
