@@ -15,7 +15,7 @@ const router = createRouter({
     {
       path: '/library',
       name: 'library',
-      component: () => import('../views/FamilyLibraryView.vue'),
+      component: () => import('../views/families/FamiliesHome.vue'),
       children: [
         {
           path: '',

@@ -10,7 +10,7 @@ function getfamilyCategoriesFetch(): Promise<HttpResponse<FamilyCategory[]>> {
     return promise;
 }
 function getFamilyPageByCategoryFetch(categoryId: number, pageIndex: number, pageSize: number): Promise<HttpResponse<PageModel<Family>>> {
-    const route = `byCategory`;
+    const route = `/v1/category`;
     const promise = httpRequest.getAsync<HttpResponse<PageModel<Family>>>(route, {
         categoryId,
         pageIndex,
@@ -29,6 +29,7 @@ function getFamilyPageByKeywordFetch(keyword: string, pageIndex: number, pageSiz
 
 function getFamilyFileByVersionFetch(id: number, version: number) {
     //TODO:
+    let route = `/v1/${id}/${version}`;
 }
 
 function getFamilyDetailFetch(id: number): Promise<HttpResponse<Family>> {
