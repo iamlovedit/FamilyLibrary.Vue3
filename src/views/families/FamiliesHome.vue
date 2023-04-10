@@ -22,7 +22,13 @@ import { ref, onMounted } from "vue";
 import { ElMessage } from 'element-plus'
 import type { FamilyCategory } from '@/models/FamilyCategory';
 import type { Family } from "@/models/Family";
-import { getfamilyCategoriesFetch, getFamilyPageByCategoryFetch, } from "@/service/family";
+import {
+    getFamilyCategoriesFetch,
+    getFamilyPageByCategoryFetch,
+    getFamilyPageFetech,
+    getFamilyPageByKeywordFetch,
+    filterFamiliePageFetch
+} from "@/service/family";
 
 const familes = ref<Family[]>();
 const categories = ref<FamilyCategory[]>();
@@ -36,7 +42,7 @@ function handleNodeClick(category: FamilyCategory) {
 }
 
 function getFamilyCategories() {
-    let promise = getfamilyCategoriesFetch();
+    let promise = getFamilyCategoriesFetch();
     promise.then(response => {
         if (response.success) {
             categories.value = response.response;
@@ -65,7 +71,7 @@ onMounted(() => {
 }
 
 .categoryContainer {
-    width: 200px;
+    width: 220px;
     flex: none;
 }
 

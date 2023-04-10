@@ -23,7 +23,7 @@ import { ref, onMounted } from "vue";
 import { ElMessage } from 'element-plus'
 import type { FamilyCategory } from '@/models/FamilyCategory'
 import {
-  getfamilyCategoriesFetch,
+  getFamilyCategoriesFetch,
   getFamilyPageByCategoryFetch,
   getFamilyDetailFetch,
   getFamilyVersionFetch,
@@ -41,7 +41,7 @@ function handleNodeClick(category: FamilyCategory) {
 }
 
 function getFamilyCategories() {
-  let promise = getfamilyCategoriesFetch();
+  let promise = getFamilyCategoriesFetch();
   promise.then(response => {
     if (response.success) {
       categories.value = response.response;

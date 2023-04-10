@@ -5,13 +5,12 @@ import type { Family } from "@/models/Family";
 import type { PageModel } from "@/models/PageModel";
 const httpRequest = new HttpRequest('family');
 
-function getfamilyCategoriesFetch(): Promise<HttpResponse<FamilyCategory[]>> {
+function getFamilyCategoriesFetch(): Promise<HttpResponse<FamilyCategory[]>> {
     const promise = httpRequest.getAsync<HttpResponse<FamilyCategory[]>>('/v1/categories');
     return promise;
 }
 function getFamilyPageByCategoryFetch(categoryId: number, pageIndex: number, pageSize: number): Promise<HttpResponse<PageModel<Family>>> {
-    const route = `/v1/category`;
-    const promise = httpRequest.getAsync<HttpResponse<PageModel<Family>>>(route, {
+    const promise = httpRequest.getAsync<HttpResponse<PageModel<Family>>>("/v1/category", {
         categoryId,
         pageIndex,
         pageSize
@@ -19,12 +18,31 @@ function getFamilyPageByCategoryFetch(categoryId: number, pageIndex: number, pag
     return promise;
 }
 function getFamilyPageByKeywordFetch(keyword: string, pageIndex: number, pageSize: number): Promise<HttpResponse<PageModel<Family>>> {
-    const promise = httpRequest.getAsync<HttpResponse<PageModel<Family>>>('', {
+    const promise = httpRequest.getAsync<HttpResponse<PageModel<Family>>>('/v1/keyword', {
         keyword,
         pageIndex,
         pageSize
     })
     return promise;
+}
+
+function getFamilyPageFetech(pageIndex: number, pageSize: number): Promise<HttpResponse<PageModel<Family>>> {
+    const promise = httpRequest.getAsync<HttpResponse<PageModel<Family>>>('/v1/all', {
+        pageIndex,
+        pageSize
+    })
+    return promise;
+}
+
+function filterFamiliePageFetch(categoryId: number, keyword: string, pageIndex: number, pageSize: number): Promise<HttpResponse<PageModel<Family>>> {
+    const promise = httpRequest.getAsync<HttpResponse<PageModel<Family>>>('/v1', {
+        categoryId,
+        keyword,
+        pageIndex,
+        pageSize
+    })
+    return promise
+
 }
 
 function getFamilyFileByVersionFetch(id: number, version: number) {
@@ -45,10 +63,12 @@ function getFamilyVersionFetch(id: number): Promise<HttpResponse<number[]>> {
 
 
 export {
-    getfamilyCategoriesFetch,
+    getFamilyCategoriesFetch,
+    getFamilyPageFetech,
     getFamilyPageByCategoryFetch,
     getFamilyPageByKeywordFetch,
     getFamilyFileByVersionFetch,
     getFamilyDetailFetch,
-    getFamilyVersionFetch
+    getFamilyVersionFetch,
+    filterFamiliePageFetch
 }
